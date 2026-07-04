@@ -2,7 +2,7 @@
 User-agent: *
 Allow: /
 
-# AI crawlers — explicitly welcome (AIEO)
+# AI crawlers, explicitly welcome (AIEO)
 User-agent: GPTBot
 Allow: /
 

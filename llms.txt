@@ -1,28 +1,28 @@
-# Abhijith B Lal — Prompt Engineer
+# Abhijith B Lal · Prompt Engineer
 
 > Prompt Engineer and AI workflow specialist (ex-NVIDIA) based in Bangalore, India. Specializes in LLM evaluation, RAG (Retrieval-Augmented Generation), RLHF, agentic AI, prompt optimization, and hallucination analysis. 4 live open-source AI projects with 67 automated tests. Open to Prompt Engineer, Agentic AI, and AI-focused roles in Bangalore or remote.
 
 ## About
 
 - ~3 years in LLM & prompt engineering
-- Ex-NVIDIA Associate Prompt Engineer (Sep 2023 – May 2024): prompt design and optimization across RAG labeling, NVIDIA ACE, vehicle automation, TTS, and conversational AI; built evaluation rubrics and QA checklists; analyzed LLM failure modes (hallucination, summarization gaps, reasoning errors); RLHF response refinement; multi-dialect TTS dataset curation
-- Freelance AI Prompt Engineer & Content Strategist (Jun 2024 – present): prompt frameworks and chains for GPT-based models, reusable prompt templates, A/B testing of LLM outputs against engagement metrics
-- Earlier: technical content writing and SEO at NeoITO and SysTools (2022–2023)
+- Ex-NVIDIA Associate Prompt Engineer (Sep 2023 to May 2024): prompt design and optimization across RAG labeling, NVIDIA ACE, vehicle automation, TTS, and conversational AI; built evaluation rubrics and QA checklists; analyzed LLM failure modes (hallucination, summarization gaps, reasoning errors); RLHF response refinement; multi-dialect TTS dataset curation
+- Freelance AI Prompt Engineer & Content Strategist (Jun 2024 to present): prompt frameworks and chains for GPT-based models, reusable prompt templates, A/B testing of LLM outputs against engagement metrics
+- Earlier: technical content writing and SEO at NeoITO and SysTools (2022 to 2023)
 - Skills: Prompt Engineering, LLM Evaluation & Benchmarking, RAG, RLHF, Hallucination & Failure-Mode Analysis, Few-shot & Chain-of-Thought Prompting, Python, OpenAI & Anthropic APIs, LangChain, LangGraph, Hugging Face, SQL, Git, Linux, AWS
 
 ## Projects (all open source)
 
-- [Prompt Evaluation Framework](https://github.com/abhijith48/prompt-eval-framework): Python framework that benchmarks LLM prompt performance — YAML prompt templates and test cases, multi-metric scoring (accuracy, hallucination, relevance, consistency), A/B comparison between prompt variants. 17 tests.
-- [RAG Q&A System](https://github.com/abhijith48/rag-qa-system): Retrieval-augmented Q&A over documents — deliberate chunking, persistent ChromaDB vector store, relevance-scored retrieval, anti-hallucination generation with source citations. LangChain + FastAPI. 5 tests.
-- [Prompt Library & Testing Suite](https://github.com/abhijith48/prompt-library): Versioned library of production prompts (extraction, summarization, classification, generation) with an automated check-based test runner — prompts treated like code. 36 tests.
-- [Agentic Assistant](https://github.com/abhijith48/agentic-assistant): Tool-using LLM agent built on LangGraph — ReAct-style reasoning, tool selection (semantic search, calculator, datetime), visible reasoning trace. 9 tests.
+- [Prompt Evaluation Framework](https://github.com/abhijith48/prompt-eval-framework): Python framework that benchmarks LLM prompt performance: YAML prompt templates and test cases, multi-metric scoring (accuracy, hallucination, relevance, consistency), A/B comparison between prompt variants. 17 tests.
+- [RAG Q&A System](https://github.com/abhijith48/rag-qa-system): Retrieval-augmented Q&A over documents: deliberate chunking, persistent ChromaDB vector store, relevance-scored retrieval, anti-hallucination generation with source citations. LangChain + FastAPI. 5 tests.
+- [Prompt Library & Testing Suite](https://github.com/abhijith48/prompt-library): Versioned library of production prompts (extraction, summarization, classification, generation) with an automated check-based test runner. Prompts treated like code. 36 tests.
+- [Agentic Assistant](https://github.com/abhijith48/agentic-assistant): Tool-using LLM agent built on LangGraph: ReAct-style reasoning, tool selection (semantic search, calculator, datetime), visible reasoning trace. 9 tests.
 
 ## Method
 
-1. Define "good" first — write the evaluation rubric before touching the prompt
-2. Build the test set — real inputs, edge cases, adversarial phrasings, versioned in YAML
-3. Run, score, compare — A/B variants measured on accuracy, hallucination rate, relevance, consistency
-4. Iterate on failures — patch the failure mode, not the symptom; re-run until metrics hold
+1. Define "good" first: write the evaluation rubric before touching the prompt
+2. Build the test set: real inputs, edge cases, adversarial phrasings, versioned in YAML
+3. Run, score, compare: A/B variants measured on accuracy, hallucination rate, relevance, consistency
+4. Iterate on failures: patch the failure mode, not the symptom; re-run until metrics hold
 
 ## Contact
 
