@@ -9,8 +9,6 @@
 <meta name="theme-color" content="#0f0e0c" />
 <link rel="canonical" href="https://abhijith48.github.io/" />
 
-<script>try { const t = localStorage.getItem('theme'); if (t === 'light') document.documentElement.dataset.theme = 'light'; } catch (e) {}</script>
-
 <!-- Social sharing -->
 <meta property="og:type" content="website" />
 <meta property="og:title" content="Abhijith B Lal · Prompt Engineer" />
@@ -100,32 +98,6 @@
     --sans: "IBM Plex Sans", system-ui, sans-serif;
     --mono: "IBM Plex Mono", monospace;
   }
-
-  html[data-theme="light"] {
-    --ink: #faf7f0;
-    --ink-2: #f1ede0;
-    --panel: #e9e3d1;
-    --line: #d3cab1;
-    --cream: #191712;
-    --cream-dim: #494435;
-    --cream-faint: #6a6350;
-    --signal: #3f7a00;
-    --signal-deep: #2e5c00;
-    --glow: rgba(90, 150, 10, .10);
-    --shadow: rgba(85, 75, 45, .20);
-  }
-  /* light mode: heavier body text (dark-on-light renders thinner than light-on-dark) */
-  html[data-theme="light"] body { font-weight: 400; }
-  /* light mode: code surfaces stay dark, like a terminal in a light IDE theme */
-  html[data-theme="light"] .term,
-  html[data-theme="light"] .show-card pre {
-    --ink: #0f0e0c; --ink-2: #16140f; --panel: #1b1813; --line: #2e2a22;
-    --cream: #f3ede1; --cream-dim: #a89f8d; --cream-faint: #7d7565;
-    --signal: #c2f23f; --signal-deep: #9bc52a;
-    --glow: rgba(194, 242, 63, .07); --shadow: rgba(60, 50, 25, .35);
-  }
-
-  html.tswap, html.tswap body, html.tswap * { transition: background-color .45s ease, color .45s ease, border-color .45s ease !important; }
 
   * { margin: 0; padding: 0; box-sizing: border-box; }
 
@@ -248,17 +220,6 @@
     transition: border-color .25s, color .25s;
   }
   .kbd-btn:hover { border-color: var(--signal); color: var(--signal); }
-  .icon-btn {
-    width: 34px; height: 34px; border-radius: 50%;
-    background: none; border: 1px solid var(--line); cursor: pointer;
-    display: inline-flex; align-items: center; justify-content: center;
-    color: var(--cream-dim); transition: border-color .25s, color .25s, transform .4s;
-  }
-  .icon-btn:hover { border-color: var(--signal); color: var(--signal); transform: rotate(40deg); }
-  .icon-btn svg { width: 15px; height: 15px; }
-  .icon-btn .i-moon { display: none; }
-  html[data-theme="light"] .icon-btn .i-sun { display: none; }
-  html[data-theme="light"] .icon-btn .i-moon { display: block; }
 
   .menu-btn {
     display: none; background: none; border: 1px solid var(--line); border-radius: 4px;
@@ -666,10 +627,6 @@
   </div>
   <div class="nav-ctl">
     <button class="kbd-btn" id="palBtn" type="button" aria-label="Open command palette">⌘K</button>
-    <button class="icon-btn" id="themeBtn" type="button" aria-label="Toggle light and dark mode">
-      <svg class="i-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4.4"/><path d="M12 2.5v2.2M12 19.3v2.2M2.5 12h2.2M19.3 12h2.2M5 5l1.6 1.6M17.4 17.4 19 19M19 5l-1.6 1.6M6.6 17.4 5 19"/></svg>
-      <svg class="i-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 13.2A8.2 8.2 0 0 1 10.8 4a8.2 8.2 0 1 0 9.2 9.2Z"/></svg>
-    </button>
     <button class="menu-btn" id="menuBtn" aria-label="Open menu" aria-expanded="false" aria-controls="navLinks">
       <span></span><span></span>
     </button>
@@ -1010,25 +967,6 @@ Never infer it.</pre>
   /* ---------- footer year ---------- */
   $('yr').textContent = new Date().getFullYear();
 
-  /* ---------- theme ---------- */
-  const themeBtn = $('themeBtn');
-  const metaTheme = document.querySelector('meta[name="theme-color"]');
-  const applyThemeColor = () => {
-    metaTheme.setAttribute('content', document.documentElement.dataset.theme === 'light' ? '#faf7f0' : '#0f0e0c');
-  };
-  function toggleTheme() {
-    const html = document.documentElement;
-    const toLight = html.dataset.theme !== 'light';
-    html.classList.add('tswap');
-    if (toLight) html.dataset.theme = 'light'; else delete html.dataset.theme;
-    try { localStorage.setItem('theme', toLight ? 'light' : 'dark'); } catch (e) {}
-    applyThemeColor();
-    setTimeout(() => html.classList.remove('tswap'), 500);
-    return toLight ? 'light' : 'dark';
-  }
-  themeBtn.addEventListener('click', toggleTheme);
-  applyThemeColor();
-
   /* ---------- nav: scrolled state + scroll progress + hero parallax ---------- */
   const nav = $('nav'), progress = $('progress'), hero = $('hero');
   const onScroll = () => {
@@ -1270,7 +1208,7 @@ Never infer it.</pre>
   const COMMANDS = {
     help() {
       addLine('dim').textContent = '  available commands:';
-      addLine('ok').textContent = '  whoami · work · resume · contact · github · theme · eval · clear';
+      addLine('ok').textContent = '  whoami · work · resume · contact · github · eval · clear';
     },
     whoami() {
       addLine('ok').textContent = '  Abhijith B Lal · Prompt Engineer (ex-NVIDIA)';
@@ -1299,10 +1237,6 @@ Never infer it.</pre>
     github() {
       addLine('ok').textContent = '  ↗ opening github.com/abhijith48 …';
       window.open('https://github.com/abhijith48', '_blank', 'noopener');
-    },
-    theme() {
-      const t = toggleTheme();
-      addLine('ok').textContent = `  ✓ switched to ${t} mode`;
     },
     eval() {
       addLine('ok').textContent = '  ✓ curiosity            1.00';
@@ -1437,7 +1371,6 @@ Never infer it.</pre>
     { l: 'Go to Contact', k: '#contact', fn: go('#contact') },
     { l: 'Copy email address', k: '⏎', fn: async () => { try { await navigator.clipboard.writeText('abhijith.b.lal007@gmail.com'); } catch (e) {} } },
     { l: 'Download resume', k: 'pdf', fn: () => { const a = document.createElement('a'); a.href = 'Abhijith_B_Lal_2026.pdf'; a.download = ''; a.click(); } },
-    { l: 'Toggle light / dark mode', k: 'theme', fn: () => toggleTheme() },
     { l: 'Open GitHub ↗', k: 'gh', fn: () => window.open('https://github.com/abhijith48', '_blank', 'noopener') },
     { l: 'Open LinkedIn ↗', k: 'in', fn: () => window.open('https://www.linkedin.com/in/abhijithblal/', '_blank', 'noopener') }
   ];
