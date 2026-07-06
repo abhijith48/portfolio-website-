@@ -1078,9 +1078,14 @@ Never infer it.</pre>
     nav.classList.toggle('scrolled', sc > 24);
     const max = document.documentElement.scrollHeight - innerHeight;
     progress.style.width = (max > 0 ? (sc / max) * 100 : 0) + '%';
-    if (!reduced && sc < innerHeight * 1.2) {
-      hero.style.transform = `translateY(${sc * 0.22}px)`;
-      hero.style.opacity = Math.max(1 - sc / (innerHeight * 1.05), 0);
+    if (!reduced && fine) {
+      // fade only once the hero has actually been scrolled past, so tall
+      // heroes (mobile/short windows) never fade while still being read
+      const past = Math.max(0, sc - Math.max(hero.offsetHeight - innerHeight, 0));
+      if (past < innerHeight * 1.2) {
+        hero.style.transform = past ? `translateY(${(past * 0.25).toFixed(1)}px)` : '';
+        hero.style.opacity = past ? Math.max(1 - past / (innerHeight * 0.95), 0) : '';
+      }
     }
     litWords();
   };
