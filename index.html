@@ -9,6 +9,8 @@
 <meta name="theme-color" content="#0f0e0c" />
 <link rel="canonical" href="https://abhijith48.github.io/" />
 
+<script>try { if (!localStorage.getItem('booted') && !matchMedia('(prefers-reduced-motion: reduce)').matches) document.documentElement.classList.add('booting'); } catch (e) {}</script>
+
 <!-- Social sharing -->
 <meta property="og:type" content="website" />
 <meta property="og:title" content="Abhijith B Lal · Prompt Engineer" />
@@ -598,6 +600,96 @@
   h2.reveal.in { clip-path: inset(0 -2% 0 0); }
   .sec-label.reveal { transform: none; }
 
+  /* ---------- WOW LAYER ---------- */
+
+  /* WebGL living grid (replaces the CSS grid when active) */
+  #bg { position: fixed; inset: 0; z-index: 0; pointer-events: none; display: none; }
+  html.has-gl #bg { display: block; }
+  html.has-gl body::before { display: none; }
+
+  /* hero glyph rain */
+  #rain { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; }
+  header > *:not(#rain) { position: relative; z-index: 1; }
+
+  /* variable-font breathing + explode */
+  h1 .ch { display: inline-block; transition: font-weight .3s ease; will-change: transform; }
+
+  /* tokenizer hover on headings */
+  .tok { border-bottom: 2px solid var(--signal); padding-bottom: 1px; animation: tokin .22s both; }
+  .tok.c1 { border-color: var(--signal-deep); }
+  .tok.c2 { border-color: var(--cream-faint); }
+  .tok.c3 { border-color: var(--cream-dim); }
+  @keyframes tokin { from { opacity: .15; } }
+  .tok-count {
+    font-family: var(--mono); font-size: 12px; letter-spacing: .08em;
+    color: var(--signal); margin-left: 16px; white-space: nowrap;
+    animation: tokin .3s both .15s;
+  }
+
+  /* giant outline marquees */
+  .marq {
+    overflow: hidden; padding: 30px 0;
+    margin-left: calc(50% - 50vw); margin-right: calc(50% - 50vw);
+  }
+  .marq-track {
+    display: inline-flex; white-space: nowrap; will-change: transform;
+    font-family: var(--serif); font-style: italic;
+    font-size: clamp(56px, 9vw, 110px); line-height: 1;
+    color: transparent; -webkit-text-stroke: 1px var(--cream-faint);
+    opacity: .3;
+  }
+  .marq-track span { padding-right: 64px; }
+
+  /* scroll-velocity skew */
+  main { will-change: transform; }
+
+  /* boot sequence (first visit only) */
+  #boot { display: none; }
+  html.booting #boot {
+    display: flex; position: fixed; inset: 0; z-index: 200;
+    background: var(--ink); align-items: center; justify-content: center;
+    transition: opacity .45s ease, transform .45s ease;
+  }
+  #boot.done { opacity: 0; transform: translateY(-14px); }
+  #bootLog { font-family: var(--mono); font-size: 13px; line-height: 2; color: var(--cream-dim); min-width: min(420px, 82vw); white-space: pre-wrap; }
+  #bootLog .cmd { color: var(--cream); }
+  #bootLog .cmd::before { content: "$ "; color: var(--signal); }
+  #bootLog .ok { color: var(--signal); }
+  #bootLog .dim { color: var(--cream-faint); }
+  html.booting .eyebrow, html.booting h1, html.booting .hero-proof,
+  html.booting .hero-meta .tag, html.booting .term { animation-play-state: paused !important; }
+
+  /* CRT phosphor mode (easter egg: type "crt" in the terminal, or Konami code) */
+  #crtFx { display: none; position: fixed; inset: 0; z-index: 150; pointer-events: none; }
+  body.crt {
+    --ink: #020a04; --ink-2: #041309; --panel: #06190d; --line: #103d20;
+    --cream: #8dffab; --cream-dim: #55d883; --cream-faint: #2f9e57;
+    --signal: #c9ff5e; --signal-deep: #7ee06a; --glow: rgba(130, 255, 150, .08);
+  }
+  body.crt #crtFx {
+    display: block;
+    background: repeating-linear-gradient(0deg, rgba(0, 0, 0, .25) 0 1px, transparent 1px 3px);
+    box-shadow: inset 0 0 220px rgba(0, 0, 0, .6);
+    animation: crt-flicker .12s steps(2) infinite;
+  }
+  body.crt nav, body.crt main, body.crt footer { text-shadow: 0 0 5px color-mix(in srgb, currentColor 55%, transparent); }
+  @keyframes crt-flicker { 0% { opacity: .93; } 100% { opacity: 1; } }
+
+  /* attention-weights cursor */
+  .aw { transition: color .25s ease, text-shadow .25s ease; }
+  .aw.a1 { color: var(--cream); }
+  .aw.a2 { color: var(--cream); text-shadow: 0 0 14px color-mix(in srgb, var(--signal) 45%, transparent); }
+
+  @media (prefers-reduced-motion: reduce) {
+    #rain, #bg, #boot { display: none !important; }
+    html.has-gl body::before { display: block; }
+    .marq-track { transform: none !important; opacity: .2; }
+    .tok, .tok-count { animation: none; }
+    h1 .ch { transition: none; }
+    body.crt #crtFx { animation: none; }
+    main { transform: none !important; }
+  }
+
   @media (prefers-reduced-motion: reduce) {
     .reveal, h2.reveal, .xp.reveal, .proj.feature.reveal, .steps .step.reveal { opacity: 1; transform: none; transition: none; clip-path: none; }
     .sec-label .ln { transform: translateY(-4px) scaleX(1); transition: none; }
@@ -613,6 +705,9 @@
 <body>
 
 <a class="skip-link" href="#about">Skip to content</a>
+<div id="boot" aria-hidden="true"><pre id="bootLog"></pre></div>
+<canvas id="bg" aria-hidden="true"></canvas>
+<div id="crtFx" aria-hidden="true"></div>
 <div id="progress" aria-hidden="true"></div>
 <div class="spotlight" id="spotlight" aria-hidden="true"></div>
 
@@ -636,6 +731,7 @@
 <main class="wrap" id="top">
 
   <header id="hero">
+    <canvas id="rain" aria-hidden="true"></canvas>
     <div class="eyebrow">Prompt Engineer · ex-NVIDIA · Bangalore</div>
     <h1>
       <span class="dec" data-text="Abhijith">Abhijith</span>
@@ -736,6 +832,10 @@
 
     </div>
   </section>
+
+  <div class="marq" aria-hidden="true">
+    <div class="marq-track"><span>EVALUATE · MEASURE · ITERATE ·</span><span>EVALUATE · MEASURE · ITERATE ·</span><span>EVALUATE · MEASURE · ITERATE ·</span><span>EVALUATE · MEASURE · ITERATE ·</span><span>EVALUATE · MEASURE · ITERATE ·</span><span>EVALUATE · MEASURE · ITERATE ·</span><span>EVALUATE · MEASURE · ITERATE ·</span><span>EVALUATE · MEASURE · ITERATE ·</span></div>
+  </div>
 
   <section id="work">
     <div class="sec-label reveal"><span class="idx">03</span> <span>Selected Work</span> <span class="ln"></span></div>
@@ -928,6 +1028,10 @@ Never infer it.</pre>
     </div>
   </section>
 
+  <div class="marq" aria-hidden="true">
+    <div class="marq-track"><span>SHIPPED · SCORED · MEASURED ·</span><span>SHIPPED · SCORED · MEASURED ·</span><span>SHIPPED · SCORED · MEASURED ·</span><span>SHIPPED · SCORED · MEASURED ·</span><span>SHIPPED · SCORED · MEASURED ·</span><span>SHIPPED · SCORED · MEASURED ·</span><span>SHIPPED · SCORED · MEASURED ·</span><span>SHIPPED · SCORED · MEASURED ·</span></div>
+  </div>
+
   <section id="contact" class="contact">
     <h2 class="reveal">Let's build something <em>reliable</em>.</h2>
     <p class="reveal">Open to Prompt Engineer, Agentic AI, and AI-focused roles. Always happy to connect and share notes.</p>
@@ -1077,9 +1181,9 @@ Never infer it.</pre>
 
   /* ---------- h1 decode ---------- */
   const GLYPHS = '!<>-_\\/[]{}=+*^?#@$%&';
-  function decode(el) {
+  function decode(el, done) {
     const text = el.dataset.text;
-    if (reduced) { el.textContent = text; return; }
+    if (reduced) { el.textContent = text; if (done) done(); return; }
     let frame = 0;
     const step = () => {
       let out = '';
@@ -1090,22 +1194,31 @@ Never infer it.</pre>
       el.textContent = out;
       frame++;
       if (out !== text) requestAnimationFrame(step);
+      else if (done) done();
     };
     step();
   }
-  setTimeout(() => document.querySelectorAll('.dec').forEach(decode), reduced ? 0 : 380);
+  function runDecode() {
+    const decs = [...document.querySelectorAll('.dec')];
+    let left = decs.length;
+    decs.forEach(el => decode(el, () => { if (--left === 0) letterize(); }));
+  }
 
   /* ---------- hero statement word stagger ---------- */
   const stmt = $('heroStatement');
+  let heroWords = null;
   if (!reduced && stmt) {
     wrapWords(stmt);
-    const words = stmt.querySelectorAll('.w');
-    words.forEach(w => {
+    heroWords = stmt.querySelectorAll('.w');
+    heroWords.forEach(w => {
       w.style.opacity = '0';
       w.style.transform = 'translateY(10px)';
       w.style.transition = 'opacity .5s ease, transform .5s ease';
     });
-    words.forEach((w, i) => setTimeout(() => {
+  }
+  function staggerStatement() {
+    if (!heroWords) return;
+    heroWords.forEach((w, i) => setTimeout(() => {
       w.style.opacity = '1'; w.style.transform = 'none';
     }, 620 + i * 24));
   }
@@ -1182,8 +1295,6 @@ Never infer it.</pre>
       i++;
     }
   }
-  setTimeout(runTerm, reduced ? 0 : 1500);
-
   function enterInteractive() {
     if (interactive) { termInput.focus({ preventScroll: true }); return; }
     interactive = true;
@@ -1237,6 +1348,12 @@ Never infer it.</pre>
     github() {
       addLine('ok').textContent = '  ↗ opening github.com/abhijith48 …';
       window.open('https://github.com/abhijith48', '_blank', 'noopener');
+    },
+    crt() {
+      const on = document.body.classList.toggle('crt');
+      addLine('ok').textContent = on
+        ? '  ✓ phosphor mode engaged · type "crt" again to exit'
+        : '  ✓ back to studio black';
     },
     eval() {
       addLine('ok').textContent = '  ✓ curiosity            1.00';
@@ -1429,6 +1546,367 @@ Never infer it.</pre>
       else closeMenu();
     }
   });
+
+  /* ---------- h1 letterize + variable-font breathing + explode ---------- */
+  const h1El = document.querySelector('h1');
+  let exploding = false;
+  function letterize() {
+    document.querySelectorAll('h1 .dec').forEach(el => {
+      const text = el.dataset.text;
+      el.textContent = '';
+      [...text].forEach(chr => {
+        if (chr === ' ') { el.append(' '); return; }
+        const s = document.createElement('span');
+        s.className = 'ch'; s.textContent = chr;
+        el.append(s);
+      });
+    });
+    initBreathing();
+  }
+  function initBreathing() {
+    if (!fine || reduced || h1El.dataset.breath) return;
+    h1El.dataset.breath = '1';
+    let raf = null, bx = 0, by = 0;
+    const apply = () => {
+      raf = null;
+      if (exploding) return;
+      h1El.querySelectorAll('.ch').forEach(ch => {
+        const r = ch.getBoundingClientRect();
+        const d = Math.hypot(bx - (r.left + r.width / 2), by - (r.top + r.height / 2));
+        ch.style.fontWeight = Math.round(Math.max(340, 900 - d * 2.6));
+      });
+    };
+    h1El.addEventListener('mousemove', e => {
+      bx = e.clientX; by = e.clientY;
+      if (!raf) raf = requestAnimationFrame(apply);
+    });
+    h1El.addEventListener('mouseleave', () => {
+      h1El.querySelectorAll('.ch').forEach(ch => { ch.style.fontWeight = ''; });
+    });
+  }
+  h1El.addEventListener('click', () => {
+    if (exploding || reduced) return;
+    const chs = [...h1El.querySelectorAll('.ch')];
+    if (!chs.length) return;
+    exploding = true;
+    const parts = chs.map(ch => ({
+      ch, x: 0, y: 0, r: 0,
+      vx: (Math.random() - .5) * 34,
+      vy: -(8 + Math.random() * 16),
+      vr: (Math.random() - .5) * 46
+    }));
+    let f = 0;
+    (function fly() {
+      f++;
+      parts.forEach(p => {
+        p.vy += 1.1; p.x += p.vx; p.y += p.vy; p.r += p.vr;
+        p.ch.style.transform = `translate(${p.x.toFixed(1)}px,${p.y.toFixed(1)}px) rotate(${p.r.toFixed(1)}deg)`;
+        if (f > 26) p.ch.style.opacity = String(Math.max(0, 1 - (f - 26) / 12));
+      });
+      if (f < 38) { requestAnimationFrame(fly); return; }
+      chs.forEach(c => { c.style.transform = ''; c.style.opacity = ''; });
+      const decs = [...h1El.querySelectorAll('.dec')];
+      let left = decs.length;
+      decs.forEach(el => decode(el, () => { if (--left === 0) { letterize(); exploding = false; } }));
+    })();
+  });
+
+  /* ---------- tokenizer hover on headings ---------- */
+  if (fine) {
+    const chunks = word => {
+      const out = [];
+      let i = 0, seed = 0;
+      for (const c of word) seed += c.charCodeAt(0);
+      while (i < word.length) {
+        const k = Math.max(1, Math.min(word.length - i, 2 + ((seed + i * 7) % 3)));
+        out.push(word.slice(i, i + k)); i += k;
+      }
+      return out;
+    };
+    document.querySelectorAll('main h2').forEach(h2 => {
+      h2.addEventListener('mouseenter', () => {
+        if (h2.dataset.tok) return;
+        h2.dataset.tok = '1';
+        h2.__orig = h2.innerHTML;
+        let n = 0;
+        (function walk(node) {
+          [...node.childNodes].forEach(c => {
+            if (c.nodeType === 3) {
+              const fr = document.createDocumentFragment();
+              c.textContent.split(/(\s+)/).forEach(part => {
+                if (!part) return;
+                if (/^\s+$/.test(part)) { fr.append(part); return; }
+                chunks(part).forEach(t => {
+                  const s = document.createElement('span');
+                  s.className = 'tok c' + (n % 4);
+                  s.style.animationDelay = (n * 16) + 'ms';
+                  s.textContent = t;
+                  fr.append(s); n++;
+                });
+              });
+              c.replaceWith(fr);
+            } else if (c.nodeType === 1) walk(c);
+          });
+        })(h2);
+        const lbl = document.createElement('span');
+        lbl.className = 'tok-count';
+        lbl.textContent = '≈ ' + n + ' tokens';
+        h2.append(lbl);
+      });
+      h2.addEventListener('mouseleave', () => {
+        if (!h2.dataset.tok) return;
+        h2.innerHTML = h2.__orig;
+        delete h2.dataset.tok;
+      });
+    });
+  }
+
+  /* ---------- hero glyph rain ---------- */
+  (function rain() {
+    const cv = $('rain'), hero = $('hero');
+    if (!cv || reduced) return;
+    const ctx = cv.getContext('2d');
+    const GL = '{}[]<>/=+*#$%&?!01';
+    const WORDS = ['accuracy', 'rag', 'eval', 'rlhf', '0.94', 'prompt', 'tokens', 'trace', 'pass'];
+    let W = 0, H = 0, ps = [], mrx = -1e4, mry = -1e4, running = true, last = 0;
+    const spawn = mid => ({
+      x: Math.random() * W, y: mid ? Math.random() * H : -20,
+      s: .25 + Math.random() * .8,
+      ch: GL[(Math.random() * GL.length) | 0],
+      w: WORDS[(Math.random() * WORDS.length) | 0],
+      a: .05 + Math.random() * .09
+    });
+    const size = () => {
+      W = cv.width = hero.clientWidth;
+      H = cv.height = hero.clientHeight;
+      ps = Array.from({ length: Math.min(110, (W / 14) | 0) }, () => spawn(true));
+    };
+    if (fine) {
+      hero.addEventListener('mousemove', e => {
+        const r = cv.getBoundingClientRect();
+        mrx = e.clientX - r.left; mry = e.clientY - r.top;
+      });
+      hero.addEventListener('mouseleave', () => { mrx = mry = -1e4; });
+    }
+    new IntersectionObserver(en => {
+      const was = running;
+      running = en[0].isIntersecting;
+      if (running && !was) requestAnimationFrame(draw);
+    }).observe(hero);
+    addEventListener('resize', size);
+    size();
+    function draw(t) {
+      if (!running) return;
+      if (t - last < 33) { requestAnimationFrame(draw); return; }
+      last = t;
+      ctx.clearRect(0, 0, W, H);
+      ctx.font = '12px "IBM Plex Mono", monospace';
+      ps.forEach(p => {
+        p.y += p.s;
+        if (p.y > H + 20) Object.assign(p, spawn(false));
+        const d = Math.hypot(p.x - mrx, p.y - mry);
+        if (d < 130) {
+          ctx.fillStyle = 'rgba(194,242,63,' + Math.max(.12, .5 - d / 300).toFixed(2) + ')';
+          ctx.fillText(p.w, p.x, p.y);
+        } else {
+          if (Math.random() < .012) p.ch = GL[(Math.random() * GL.length) | 0];
+          ctx.fillStyle = 'rgba(243,237,225,' + p.a + ')';
+          ctx.fillText(p.ch, p.x, p.y);
+        }
+      });
+      requestAnimationFrame(draw);
+    }
+    requestAnimationFrame(draw);
+  })();
+
+  /* ---------- WebGL living grid ---------- */
+  (function glGrid() {
+    if (reduced || !fine) return;
+    const cv = $('bg');
+    const gl = cv.getContext('webgl', { alpha: true, antialias: true });
+    if (!gl) return;
+    const FS = `precision mediump float;
+      uniform vec2 u_res; uniform float u_t; uniform vec2 u_m;
+      void main() {
+        vec2 px = vec2(gl_FragCoord.x, u_res.y - gl_FragCoord.y);
+        float dm = distance(px, u_m);
+        float ripple = 10.0 * exp(-dm * dm / 60000.0) * sin(dm * 0.05 - u_t * 2.4);
+        vec2 w = px + vec2(sin(px.y * 0.006 + u_t * 0.5), cos(px.x * 0.006 + u_t * 0.4)) * 3.0 + ripple;
+        vec2 f = abs(fract(w / 64.0) - 0.5);
+        float g = smoothstep(0.47, 0.5, max(f.x, f.y));
+        vec2 uv = px / u_res;
+        float mask = (1.0 - smoothstep(0.15, 0.85, uv.y)) * (1.0 - smoothstep(0.55, 1.1, abs(uv.x - 0.5) * 2.0 + uv.y * 0.6));
+        float near = exp(-dm * dm / 50000.0);
+        float a = g * mask * (0.16 + 0.3 * near);
+        vec3 col = mix(vec3(0.24, 0.22, 0.18), vec3(0.62, 0.85, 0.22), near);
+        gl_FragColor = vec4(col * a, a);
+      }`;
+    const VS = 'attribute vec2 p; void main(){ gl_Position = vec4(p, 0.0, 1.0); }';
+    const sh = (type, src) => {
+      const s = gl.createShader(type);
+      gl.shaderSource(s, src); gl.compileShader(s);
+      return gl.getShaderParameter(s, gl.COMPILE_STATUS) ? s : null;
+    };
+    const v = sh(gl.VERTEX_SHADER, VS), f = sh(gl.FRAGMENT_SHADER, FS);
+    if (!v || !f) return;
+    const pr = gl.createProgram();
+    gl.attachShader(pr, v); gl.attachShader(pr, f); gl.linkProgram(pr);
+    if (!gl.getProgramParameter(pr, gl.LINK_STATUS)) return;
+    gl.useProgram(pr);
+    const buf = gl.createBuffer();
+    gl.bindBuffer(gl.ARRAY_BUFFER, buf);
+    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1, -1, 3, -1, -1, 3]), gl.STATIC_DRAW);
+    const loc = gl.getAttribLocation(pr, 'p');
+    gl.enableVertexAttribArray(loc);
+    gl.vertexAttribPointer(loc, 2, gl.FLOAT, false, 0, 0);
+    const uRes = gl.getUniformLocation(pr, 'u_res'),
+          uT = gl.getUniformLocation(pr, 'u_t'),
+          uM = gl.getUniformLocation(pr, 'u_m');
+    gl.enable(gl.BLEND);
+    gl.blendFunc(gl.ONE, gl.ONE_MINUS_SRC_ALPHA);
+    const dpr = Math.min(devicePixelRatio || 1, 1.5);
+    let gmx = innerWidth / 2, gmy = -400, cx2 = gmx, cy2 = gmy;
+    const size = () => {
+      cv.width = innerWidth * dpr; cv.height = innerHeight * dpr;
+      gl.viewport(0, 0, cv.width, cv.height);
+    };
+    addEventListener('resize', size); size();
+    addEventListener('mousemove', e => { gmx = e.clientX; gmy = e.clientY; }, { passive: true });
+    document.documentElement.classList.add('has-gl');
+    (function loop(t) {
+      if (!document.hidden) {
+        cx2 += (gmx - cx2) * .07; cy2 += (gmy - cy2) * .07;
+        gl.uniform2f(uRes, cv.width, cv.height);
+        gl.uniform1f(uT, t / 1000);
+        gl.uniform2f(uM, cx2 * dpr, cy2 * dpr);
+        gl.clearColor(0, 0, 0, 0);
+        gl.clear(gl.COLOR_BUFFER_BIT);
+        gl.drawArrays(gl.TRIANGLES, 0, 3);
+      }
+      requestAnimationFrame(loop);
+    })(0);
+  })();
+
+  /* ---------- scroll-velocity skew + marquees ---------- */
+  const mainEl = document.querySelector('main');
+  const tracks = [...document.querySelectorAll('.marq-track')];
+  let skT = 0, skC = 0, skRaf = null, vLastSc = scrollY, vLastT = performance.now();
+  function skewLoop() {
+    skC += (skT - skC) * .12;
+    skT *= .84;
+    mainEl.style.transform = Math.abs(skC) > .02 ? `skewY(${skC.toFixed(3)}deg)` : '';
+    skRaf = (Math.abs(skC) > .02 || Math.abs(skT) > .02) ? requestAnimationFrame(skewLoop) : null;
+  }
+  addEventListener('scroll', () => {
+    if (reduced) return;
+    const now = performance.now(), sc = scrollY;
+    skT = Math.max(-1.3, Math.min(1.3, (sc - vLastSc) / Math.max(now - vLastT, 1) * 1.3));
+    vLastSc = sc; vLastT = now;
+    if (!skRaf) skRaf = requestAnimationFrame(skewLoop);
+    tracks.forEach((tr, i) => {
+      const half = tr.scrollWidth / 2 || 1;
+      const off = (sc * .35) % half;
+      tr.style.transform = `translateX(${(i % 2 ? off - half : -off).toFixed(1)}px)`;
+    });
+  }, { passive: true });
+
+  /* ---------- attention-weights cursor ---------- */
+  (function attention() {
+    if (!fine || reduced) return;
+    const paras = [...document.querySelectorAll('.about-body p:not(.lit-p), .step p')];
+    paras.forEach(p => {
+      wrapWords(p);
+      p.querySelectorAll('.w').forEach(w => w.classList.add('aw'));
+    });
+    let cache = null, raf = null, ax = 0, ay = 0;
+    const invalidate = () => { cache = null; };
+    addEventListener('resize', invalidate);
+    addEventListener('scroll', invalidate, { passive: true });
+    const build = () => {
+      cache = [];
+      paras.forEach(p => p.querySelectorAll('.aw').forEach(w => {
+        const r = w.getBoundingClientRect();
+        cache.push({ w, x: r.left + r.width / 2 + scrollX, y: r.top + r.height / 2 + scrollY });
+      }));
+    };
+    addEventListener('mousemove', e => {
+      ax = e.clientX + scrollX; ay = e.clientY + scrollY;
+      if (!raf) raf = requestAnimationFrame(run);
+    }, { passive: true });
+    function run() {
+      raf = null;
+      if (!cache) build();
+      cache.forEach(c => {
+        const d = Math.hypot(c.x - ax, c.y - ay);
+        c.w.classList.toggle('a2', d < 70);
+        c.w.classList.toggle('a1', d >= 70 && d < 150);
+      });
+    }
+  })();
+
+  /* ---------- Konami code → CRT ---------- */
+  const KON = ['ArrowUp', 'ArrowUp', 'ArrowDown', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'ArrowLeft', 'ArrowRight', 'b', 'a'];
+  let konI = 0;
+  addEventListener('keydown', e => {
+    konI = e.key === KON[konI] ? konI + 1 : (e.key === KON[0] ? 1 : 0);
+    if (konI === KON.length) { konI = 0; document.body.classList.toggle('crt'); }
+  });
+
+  /* ---------- boot sequence (first visit) ---------- */
+  function runBoot() {
+    return new Promise(res => {
+      const log = $('bootLog'), box = $('boot');
+      let over = false;
+      const finish = () => {
+        if (over) return;
+        over = true;
+        try { localStorage.setItem('booted', '1'); } catch (e) {}
+        box.classList.add('done');
+        setTimeout(() => {
+          document.documentElement.classList.remove('booting');
+          box.style.display = 'none';
+          res();
+        }, 470);
+      };
+      addEventListener('keydown', finish, { once: true });
+      box.addEventListener('click', finish, { once: true });
+      (async () => {
+        const LINES = [
+          ['dim', '  mounting sections (6) ........ ok'],
+          ['ok', '  eval suite · 67 tests ........ ok'],
+          ['ok', '  hallucination check .......... 0.00'],
+          ['ok', '  ready.']
+        ];
+        const cmd = document.createElement('span');
+        cmd.className = 'cmd';
+        log.append(cmd);
+        for (const ch of 'init abl-portfolio') {
+          if (over) return;
+          cmd.textContent += ch;
+          await sleep(18);
+        }
+        for (const [cls, txt] of LINES) {
+          if (over) return;
+          await sleep(200);
+          const s = document.createElement('span');
+          s.className = cls;
+          s.textContent = '\n' + txt;
+          log.append(s);
+        }
+        await sleep(430);
+        finish();
+      })();
+    });
+  }
+
+  /* ---------- start ---------- */
+  function startHero() {
+    setTimeout(runDecode, reduced ? 0 : 380);
+    staggerStatement();
+    setTimeout(runTerm, reduced ? 0 : 1500);
+  }
+  if (document.documentElement.classList.contains('booting')) runBoot().then(startHero);
+  else startHero();
 
   /* ---------- console easter egg ---------- */
   console.log(
